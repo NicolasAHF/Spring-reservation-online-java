@@ -1,12 +1,33 @@
 package com.example.onlinereservationsystem.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "reservations")
 public class Reservation {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private String[] persons;
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private Set<Person> people;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
     private String status;
     private String notes;
@@ -14,12 +35,8 @@ public class Reservation {
     public Reservation() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public LocalDateTime getStartDate() {
@@ -38,12 +55,12 @@ public class Reservation {
         this.endDate = endDate;
     }
 
-    public String[] getPersons() {
-        return persons;
+    public Set<Person> getpeople() {
+        return people;
     }
 
-    public void setPersons(String[] persons) {
-        this.persons = persons;
+    public void setpeople(Set<Person> people) {
+        this.people = people;
     }
 
     public User getUser() {
@@ -68,5 +85,20 @@ public class Reservation {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Reservation user = (Reservation) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
