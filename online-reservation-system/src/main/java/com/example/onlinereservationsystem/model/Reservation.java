@@ -14,91 +14,39 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.*;
 
 @Entity
 @Table(name = "reservations")
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
+    @Getter
+    @Setter
     private LocalDateTime startDate;
+    @Getter
+    @Setter
     private LocalDateTime endDate;
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
     private Set<Person> people;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @Getter
+    @Setter
     private User user;
+    @Getter
+    @Setter
     private String status;
+    @Getter
+    @Setter
     private String notes;
-
-    public Reservation() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
-    public Set<Person> getpeople() {
-        return people;
-    }
-
-    public void setpeople(Set<Person> people) {
-        this.people = people;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Reservation user = (Reservation) o;
-        return Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
