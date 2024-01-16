@@ -1,7 +1,6 @@
 package com.example.onlinereservationsystem.model;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -16,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
+@Getter
 @Entity
 @Table(name = "reservations")
 @ToString
@@ -26,27 +26,20 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
-    @Getter
     @Setter
     private LocalDateTime startDate;
-    @Getter
     @Setter
     private LocalDateTime endDate;
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    @Getter
     @Setter
     private Set<Person> people;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @Getter
     @Setter
     private User user;
-    @Getter
     @Setter
     private String status;
-    @Getter
     @Setter
     private String notes;
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
+@Getter
 @Entity
 @Table(name = "person")
 @ToString
@@ -20,14 +21,11 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
-    @Getter
     @Setter
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id")
-    @Getter
     @Setter
     private Reservation reservation;
 
